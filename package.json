@@ -8,15 +8,14 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,scss,md,ts,html,graphql}": [
-      "npm format --uncommitted"
-    ],
     "ignore": [
       "**/*.md",
       "dist/**/*"
     ]
   },
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky install"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~16.0.0",
