@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "braincandy",
   "sourceRoot": "apps/frontend/src",
-  "tags": [],
+  "tags": ["scope:frontend"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
