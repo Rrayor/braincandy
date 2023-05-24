@@ -1,14 +1,5 @@
 {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "apps/**/*.html": [
-      "prettier --write"
-    ],
-    "apps/**/*.scss": [
-      "stylelint --fix",
-      "prettier --write"
-    ]
-  }
-  
+  "*.ts": ["eslint --fix", "prettier --write"],
+  "apps/**/*.html": ["prettier --write"],
+  "apps/**/*.scss": ["stylelint --fix", "prettier --write"]
+}

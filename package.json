@@ -8,6 +8,9 @@
     }
   },
   "lint-staged": {
+    "*.{js,json,css,scss,md,ts,html,graphql}": [
+      "npm format --uncommitted"
+    ],
     "ignore": [
       "**/*.md",
       "dist/**/*"
