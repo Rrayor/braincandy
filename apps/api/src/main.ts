@@ -3,7 +3,12 @@
  * This is only a minimal backend to get started.
  */
 
-import { ClassSerializerInterceptor, Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Logger,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
@@ -24,7 +29,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableVersioning({
     defaultVersion: '1',
-    type: VersioningType.URI
+    type: VersioningType.URI,
   });
 
   const config = new DocumentBuilder()

@@ -16,26 +16,26 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
         PORT: Joi.number().default(3000),
-        DATABASE_URL: Joi.string().required()
+        DATABASE_URL: Joi.string().required(),
       }),
       validationOptions: {
-        allowUnknown: true
-      }
+        allowUnknown: true,
+      },
     }),
     CacheModule.register({
       isGlobal: true,
       ttl: 3_600_000,
-      max: 100
+      max: 100,
     }),
-    SharedModule
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor
-    }
+      useClass: CacheInterceptor,
+    },
   ],
 })
 export class AppModule {}
