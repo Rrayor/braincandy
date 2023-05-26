@@ -13,8 +13,7 @@
           "test",
           "e2e",
           "build-storybook"
-        ],
-        "accessToken": "NzBlZGE1MzMtZjczMS00YTg1LThjYTgtNzJkOTJkNWEzMjM0fHJlYWQtd3JpdGU="
+        ]
       }
     }
   },
