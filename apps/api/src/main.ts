@@ -25,7 +25,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   app.use(helmet());
-  app.use(cookieParser(configService.get('COOKIE_PARSER_SECRET')))
+  app.use(cookieParser(configService.get('COOKIE_PARSER_SECRET')));
   app.use(csurf(configService.get<string>('CSRF_KEY')));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app.use((req: any, res: any, next: any) => {

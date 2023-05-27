@@ -30,7 +30,7 @@ import { SharedModule } from './modules/shared/shared.module';
       max: 100,
     }),
     SharedModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
