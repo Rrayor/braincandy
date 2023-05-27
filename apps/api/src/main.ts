@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import csurf from 'tiny-csrf';
 
@@ -24,7 +25,16 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   app.use(helmet());
+  app.use(cookieParser(configService.get('COOKIE_PARSER_SECRET')))
   app.use(csurf(configService.get<string>('CSRF_KEY')));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app.use((req: any, res: any, next: any) => {
+    const token = req.csrfToken();
+    res.cookie('XSRF-TOKEN', token);
+    res.locals.csrfToken = token;
+
+    next();
+  });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableVersioning({
@@ -36,7 +46,6 @@ async function bootstrap() {
     .setTitle('Braincandy')
     .setDescription('Generic data visualization')
     .setVersion('1.0')
-    .addTag('Data')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
