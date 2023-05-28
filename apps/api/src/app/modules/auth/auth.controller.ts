@@ -15,7 +15,9 @@ export class AuthController {
   @Post('/signup')
   @HttpCode(201)
   @ApiCreatedResponse({ description: 'User successfully registered' })
-  @ApiBadRequestResponse({ description: 'DTO badly formed or contains invalid data' })
+  @ApiBadRequestResponse({
+    description: 'DTO badly formed or contains invalid data',
+  })
   signup(@Body() userRequest: CreateUserDto): Promise<void> {
     return this.authService.createUser(userRequest);
   }
