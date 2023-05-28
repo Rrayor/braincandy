@@ -26,15 +26,13 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   app.use(helmet());
   app.use(cookieParser(configService.get('COOKIE_PARSER_SECRET')));
-  app.use(csurf(configService.get<string>('CSRF_KEY')));
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app.use((req: any, res: any, next: any) => {
-    const token = req.csrfToken();
-    res.cookie('XSRF-TOKEN', token);
-    res.locals.csrfToken = token;
-
-    next();
-  });
+  app.use(
+    csurf(
+      configService.get<string>('CSRF_KEY'),
+      ['POST', 'PUT', 'PATCH', 'DELETE'],
+      [/\/auth\/signup/]
+    )
+  );
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableVersioning({

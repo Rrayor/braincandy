@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import admin from 'firebase-admin';
-import { FireBaseAdmin } from '../../auth/firebase.setup';
+import { FireBaseAdmin } from '../firebase.setup';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const app = this.admin.setup();
-    const idToken = context.getArgs()[0]?.headers?.authorization.split(' ')[1];
+    const idToken = context.getArgs()[0]?.headers?.authorization?.split(' ')[1];
 
     const permissions = this.reflector.get<string[]>(
       'permissions',
