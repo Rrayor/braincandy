@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FireBaseAdmin } from './modules/shared/firebase.setup';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -9,7 +11,11 @@ describe('AppController', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        { provide: FireBaseAdmin, useValue: {} },
+        { provide: Logger, useValue: {} },
+      ],
     }).compile();
   });
 
