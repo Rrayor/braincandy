@@ -7,6 +7,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { LibraryModule } from './modules/library/library.module';
 import { FireBaseAdmin } from './modules/shared/firebase.setup';
 import { SharedModule } from './modules/shared/shared.module';
 
@@ -20,6 +21,11 @@ import { SharedModule } from './modules/shared/shared.module';
           .default('development'),
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
+        CSRF_KEY: Joi.string().required(),
+        COOKIE_PARSER_SECRET: Joi.string().required(),
+        FIRE_BASE_PROJECT_ID: Joi.string().required(),
+        FIRE_BASE_PRIVATE_KEY: Joi.string().required(),
+        FIRE_BASE_CLIENT_EMAIL: Joi.string().required().email(),
       }),
       validationOptions: {
         allowUnknown: true,
@@ -32,6 +38,7 @@ import { SharedModule } from './modules/shared/shared.module';
     }),
     SharedModule,
     AuthModule,
+    LibraryModule,
   ],
   controllers: [AppController],
   providers: [

@@ -7,42 +7,67 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import admin from 'firebase-admin';
+import { Roles } from '../../auth/enums/roles.enum';
 import { FireBaseAdmin } from '../firebase.setup';
+import { FireBaseService } from '../service/firebase.service';
+
+interface AuthData {
+  uid: string;
+  role: Roles;
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly admin: FireBaseAdmin,
+    private readonly firebaseService: FireBaseService,
     private readonly logger: Logger
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const app = this.admin.setup();
-    const idToken = context.getArgs()[0]?.headers?.authorization?.split(' ')[1];
+    const request = context.getArgs()[0];
+    const idToken = request?.headers?.authorization?.split(' ')[1];
 
-    const permissions = this.reflector.get<string[]>(
+    const allowedRoles = this.reflector.get<string[]>(
       'permissions',
       context.getHandler()
     );
 
-    if (await this.verify(app, idToken, permissions)) {
+    const authData = await this.getAuthData(app, idToken);
+
+    if (allowedRoles.includes(authData.role)) {
+      // TODO: clean this up
+      request.user = {
+        id: authData.uid,
+      };
       return true;
     } else {
       throw new UnauthorizedException();
     }
   }
 
-  private async verify(
+  private async getAuthData(
     app: admin.app.App,
-    idToken: string,
-    permissions: Array<string>
-  ): Promise<boolean> {
+    idToken: string
+  ): Promise<AuthData> {
     try {
-      return (await app.auth().verifyIdToken(idToken)).role === permissions[0];
+      const { uid, role } = await this.firebaseService.verifyToken(
+        app,
+        idToken
+      );
+
+      return {
+        uid,
+        role,
+      };
     } catch (error) {
       this.logger.error('Authentication error', error);
-      return false;
+      return {
+        uid: null,
+        role: Roles.UNAUTHORIZED,
+      };
     }
   }
 }

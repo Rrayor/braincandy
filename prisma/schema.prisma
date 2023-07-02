@@ -10,13 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model DataSet {
-  id      String     @id @default(auto()) @map("_id") @db.ObjectId
-  handle  String     @unique
+model Library {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String    @unique
+  dataSets DataSet[]
+}
+
+type DataSet {
+  name    String // unique
+  handle  String // unique
   entries KeyValue[]
 }
 
 type KeyValue {
-  key   String
+  key   String // unique
   value String
 }
