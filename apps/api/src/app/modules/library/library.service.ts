@@ -6,7 +6,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { prismaErrorCodes } from '../shared/constants/prisma-codes';
-import { FireBaseService } from '../shared/service/firebase.service';
 import { PrismaService } from '../shared/service/prisma.service';
 import { LibraryResponseDto } from './dto/library-response.dto';
 
@@ -14,11 +13,10 @@ import { LibraryResponseDto } from './dto/library-response.dto';
 export class LibraryService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly firebaseService: FireBaseService,
     private readonly logger: Logger
   ) {}
 
-  // TODO: telemetry: db write
+  // TODO: telemetry: db write - #11
   async create(userId: string): Promise<LibraryResponseDto> {
     try {
       this.logger.log('[DB WRITE ATTEMPT] Create Library');
@@ -33,7 +31,7 @@ export class LibraryService {
     }
   }
 
-  // TODO: telemetry: db read
+  // TODO: telemetry: db read - #11
   async getByUserId(userId: string): Promise<LibraryResponseDto> {
     try {
       this.logger.log('[DB READ ATTEMPT] Get Library by User ID');
@@ -50,7 +48,7 @@ export class LibraryService {
     }
   }
 
-  // TODO: telemetry: db write
+  // TODO: telemetry: db write - #11
   async removeByUserId(userId: string): Promise<void> {
     try {
       this.logger.log('[DB WRITE ATTEMPT] Remove Library by User ID');

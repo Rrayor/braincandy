@@ -14,8 +14,10 @@ import {
 } from '@nestjs/common/interfaces';
 import { Reflector } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
+import admin from 'firebase-admin';
 import { Roles } from '../../auth/enums/roles.enum';
 import { FireBaseAdmin } from '../firebase.setup';
+import { FireBaseService } from '../service/firebase.service';
 import { AuthGuard } from './auth.guard';
 
 class MockExecutionContext implements ExecutionContext {
@@ -30,7 +32,7 @@ class MockExecutionContext implements ExecutionContext {
   }
 
   getArgs<T = any>(): T {
-    return {} as T;
+    return [{}] as T;
   }
 
   getArgByIndex<T = any>(): T {
@@ -75,6 +77,7 @@ describe('AuthGuard', () => {
       return [role];
     },
   });
+  const testUserId = '123';
   let guard: AuthGuard;
 
   beforeEach(async () => {
@@ -83,6 +86,15 @@ describe('AuthGuard', () => {
         {
           provide: FireBaseAdmin,
           useValue: mockFirebaseAdmin,
+        },
+        {
+          provide: FireBaseService,
+          useValue: {
+            verifyToken: (app: admin.app.App, idToken: string) => ({
+              uid: testUserId,
+              role: Roles.USER,
+            }),
+          },
         },
         { provide: Logger, useValue: {} },
         {
@@ -115,6 +127,15 @@ describe('AuthGuard', () => {
           {
             provide: FireBaseAdmin,
             useValue: mockFirebaseAdmin,
+          },
+          {
+            provide: FireBaseService,
+            useValue: {
+              verifyToken: (app: admin.app.App, idToken: string) => ({
+                uid: testUserId,
+                role: Roles.USER,
+              }),
+            },
           },
           { provide: Logger, useValue: {} },
           {

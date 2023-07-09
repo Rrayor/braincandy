@@ -25,7 +25,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   app.use(helmet());
   app.use(cookieParser(configService.get('COOKIE_PARSER_SECRET')));
-  // TODO: solve the csrf issues
+  // TODO: solve the csrf issues - #13
   // app.use(
   //   csurf(
   //     configService.get<string>('CSRF_KEY'),

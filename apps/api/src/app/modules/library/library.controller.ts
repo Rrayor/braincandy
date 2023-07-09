@@ -70,7 +70,7 @@ export class LibraryController {
       'Library could not be deleted. Either there was an error, or it does not exist',
   })
   removePersonalLibrary(@Request() req): Promise<void> {
-    // TODO: invalidate cache
+    // TODO: invalidate cache -  #8
     return this.libraryService.removeByUserId(req.user.id);
   }
 }
