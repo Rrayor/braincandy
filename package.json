@@ -31,7 +31,7 @@
     "@nestjs/swagger": "^6.3.0",
     "@nx/angular": "16.2.2",
     "@nx/devkit": "^16.2.2",
-    "@prisma/client": "^4.14.1",
+    "@prisma/client": "^4.16.2",
     "angular-plotly.js": "^5.1.0",
     "axios": "^1.0.0",
     "cache-manager": "^5.2.1",

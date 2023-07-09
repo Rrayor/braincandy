@@ -1,5 +1,6 @@
 import { Controller, Get, Req } from '@nestjs/common';
 
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { Roles } from './modules/auth/enums/roles.enum';
 import { Auth } from './modules/shared/decorators/auth.decorator';
@@ -15,6 +16,7 @@ export class AppController {
 
   @Get('/csrf')
   @Auth(Roles.ADMIN, Roles.USER)
+  @ApiBearerAuth()
   csrf(@Req() req: { csrfToken: () => string }) {
     return req.csrfToken();
   }

@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FireBaseAdmin } from './modules/shared/firebase.setup';
+import { FireBaseService } from './modules/shared/service/firebase.service';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -14,6 +15,10 @@ describe('AppController', () => {
       providers: [
         AppService,
         { provide: FireBaseAdmin, useValue: {} },
+        {
+          provide: FireBaseService,
+          useValue: {},
+        },
         { provide: Logger, useValue: {} },
       ],
     }).compile();
